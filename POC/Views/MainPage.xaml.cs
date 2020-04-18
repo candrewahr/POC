@@ -36,6 +36,9 @@ namespace POC.Views
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;
+                    case (int)MenuItemType.Map:
+                        MenuPages.Add(id, new NavigationPage(new MapPage()));
+                        break;
                 }
             }
 
