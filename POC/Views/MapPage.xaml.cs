@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-
 using Xamarin.Forms;
 
 namespace POC.Views
