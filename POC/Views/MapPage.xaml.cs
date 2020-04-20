@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 namespace POC.Views
 {
@@ -15,17 +16,42 @@ namespace POC.Views
 
         protected override async void OnAppearing()
         {
+            await MoveToCurrentLocation();
+
+        }
+
+        public async Task MoveToCurrentLocation()
+        {
             map.IsShowingUser = true;
-            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+            var request = new GeolocationRequest(GeolocationAccuracy.Default);
             var location = await Geolocation.GetLocationAsync(request);
 
             if (location == null)
             {
-                location = await Geolocation.GetLastKnownLocationAsync(); 
+                location = await Geolocation.GetLastKnownLocationAsync();
             }
 
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromMiles(1)));
-
+            try
+            {
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromMiles(1)));
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception               
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                //Handle a permission exception
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+                //Location may not be available because of latency issues...
+            }
         }
 
 

@@ -5,7 +5,7 @@
              x:Class="POC.Views.MapPage"
              Title="Map">
     <StackLayout Margin="0">
-        <maps:Map x:Name="map" />
+        <maps:Map x:Name="map"/>
         <Slider Margin="0"
                 Maximum="18"
                 Minimum="1"
