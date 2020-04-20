@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using POC.Models;
 
 namespace POC.Services
 {
@@ -9,10 +8,6 @@ namespace POC.Services
     {
 
        Task<List<Brewery>> RefreshDataAsync();
-
-
-
-
 
 
     }

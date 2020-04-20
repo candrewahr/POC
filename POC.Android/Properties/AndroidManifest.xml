@@ -3,7 +3,7 @@
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
 	<application android:label="POC.Android">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAWYKHg_z8gee0aOG4Hr-tLg-CNlIxtq2g" />
-    	<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />	
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
