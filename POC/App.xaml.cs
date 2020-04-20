@@ -1,11 +1,10 @@
 ﻿using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using POC.Services;
 using POC.Views;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace POC
 {
@@ -17,7 +16,8 @@ namespace POC
         public static string AzureBackendUrl =
             DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000" : "http://localhost:5000";
         public static bool UseMockDataStore = true;
-        public static Location UserLocation = new Location();
+        public static Location CurrentUserLocation = new Location();
+        public static Placemark UserPlacemark = new Placemark();
 
         public App()
         {
@@ -36,6 +36,8 @@ namespace POC
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Default);
                 var UserLocation = await Geolocation.GetLocationAsync(request) ?? await Geolocation.GetLastKnownLocationAsync();
+                CurrentUserLocation = UserLocation;
+                return UserLocation;
             }
 
             catch (FeatureNotSupportedException fnsEx)
@@ -56,14 +58,37 @@ namespace POC
                 //Location may not be available because of latency issues...
             }
 
-            return UserLocation;
+            return null;
         }
 
+        public static async Task<Placemark> ReverseGeocode(Location location)
+        {
+            try
+            {
+                var placemarks = await Geocoding.GetPlacemarksAsync(location);
+                Placemark userPlacemark = placemarks?.FirstOrDefault();
+                return userPlacemark; 
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Feature not supported on device
+            }
+            catch (Exception ex)
+            {
+                // Handle exception that may have occurred in geocoding
+            }
+
+            return null;
+        }
 
         protected async override void OnStart()
         {
-            UserLocation = await RetrieveUserLocation();
+            var currentLocation = await RetrieveUserLocation();
+            
+            UserPlacemark = await ReverseGeocode(currentLocation);
+
         }
+
 
         protected override void OnSleep()
         {

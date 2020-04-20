@@ -14,6 +14,7 @@ namespace POC.Views
         BreweryService breweryService;
         Location UserLocation;
         List<Brewery> BreweriesInProximity;
+        bool hasAppeared;
         
         public MapPage()
         {
@@ -23,13 +24,13 @@ namespace POC.Views
 
         protected override async void OnAppearing()
         {
-            await MoveToCurrentLocation();
-            var address = new Address()
+            if (!hasAppeared)
             {
-                City = "Raleigh"
-            };
-
-            BreweriesInProximity = await breweryService.GetBreweriesByCity(address);
+                BreweriesInProximity = await breweryService.GetBreweriesByCity(App.UserPlacemark);
+                UpdateMapWithBreweryPins(BreweriesInProximity);
+                await MoveToCurrentLocation();
+                hasAppeared = true;
+            }            
         }
 
         public async Task MoveToCurrentLocation()
@@ -38,7 +39,7 @@ namespace POC.Views
             
             try
             {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.UserLocation.Latitude, App.UserLocation.Latitude), Distance.FromMiles(1)));
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.CurrentUserLocation.Latitude, App.CurrentUserLocation.Latitude), Distance.FromMiles(1)));
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -56,6 +57,23 @@ namespace POC.Views
             {
                 // Unable to get location
                 //Location may not be available because of latency issues...
+            }
+        }
+
+        public void UpdateMapWithBreweryPins(List<Brewery> breweryList)
+        {
+            var pin = new Pin();
+            foreach(Brewery brewery in breweryList)
+            {
+                pin.Address = brewery.Street + ", " + brewery.City + ", " + brewery.State;
+                pin.Label = brewery.Name;
+                pin.Type = PinType.Place;
+
+                //have to try to cast the lat and long to doubles in order to create a position object...
+                double.TryParse(brewery.Latitude, out var latitudeDouble);
+                double.TryParse(brewery.Longitude, out var longitudeDouble);
+                pin.Position = new Position(latitudeDouble, longitudeDouble);
+                map.Pins.Add(pin);
             }
         }
 
