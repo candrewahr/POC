@@ -5,6 +5,7 @@ using Xamarin.Essentials;
 using System.Threading.Tasks;
 using POC.Services;
 using POC.MobileAppService.Models;
+using System.Collections.Generic;
 
 namespace POC.Views
 {
@@ -12,6 +13,7 @@ namespace POC.Views
     {
         BreweryService breweryService;
         Location UserLocation;
+        List<Brewery> BreweriesInProximity;
         
         public MapPage()
         {
@@ -26,24 +28,17 @@ namespace POC.Views
             {
                 City = "Raleigh"
             };
-            await breweryService.GetBreweriesByCity(address);
 
+            BreweriesInProximity = await breweryService.GetBreweriesByCity(address);
         }
 
         public async Task MoveToCurrentLocation()
         {
             map.IsShowingUser = true;
-            var request = new GeolocationRequest(GeolocationAccuracy.Default);
-            var location = await Geolocation.GetLocationAsync(request);
-
-            if (location == null)
-            {
-                location = await Geolocation.GetLastKnownLocationAsync();
-            }
-
+            
             try
             {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude), Distance.FromMiles(1)));
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.UserLocation.Latitude, App.UserLocation.Latitude), Distance.FromMiles(1)));
             }
             catch (FeatureNotSupportedException fnsEx)
             {

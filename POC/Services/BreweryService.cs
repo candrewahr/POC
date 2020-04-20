@@ -10,41 +10,49 @@ namespace POC.Services
 {
     public class BreweryService : IBreweryService
     {
-            HttpClient _client;
+        HttpClient _client;
 
-            public List<Brewery> Breweries { get; private set; }
+        public List<Brewery> Breweries { get; private set; }
 
-            //TODO: split this url up into constants
-            public string BreweryApiURLByCity = "https://api.openbrewerydb.org/breweries?by_city";
+        //TODO: split this url up into constants
+        public string BreweryApiURL = "https://api.openbrewerydb.org/breweries?";
 
-            public BreweryService()
+        public BreweryService()
+        {
+            _client = new HttpClient();
+        }
+
+        public async Task<List<Brewery>> GetBreweriesByCity(Address currentUserAddress)
+        {
+            Breweries = new List<Brewery>();
+            var byCityUrl = BreweryApiURL + "by_city";
+            var currentCity = currentUserAddress.City;
+            currentCity.Replace(" ", "_");
+            var uri = new Uri(byCityUrl + "=" + currentCity);
+            try
             {
-                _client = new HttpClient();
+                var response = await _client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    Breweries = JsonConvert.DeserializeObject<List<Brewery>>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
             }
 
-            public async Task<List<Brewery>> GetBreweriesByCity(Address currentUserAddress)
-            {
-                Breweries = new List<Brewery>();
+            return Breweries;
+        }
 
-                var currentCity = currentUserAddress.City;
-                currentCity.Replace(" ", "_");
-                var uri = new Uri(BreweryApiURLByCity + "=" + currentCity);
-                try
-                {
-                    var response = await _client.GetAsync(uri);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
-                        Breweries = JsonConvert.DeserializeObject<List<Brewery>>(content);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                }
+        public async Task<List<Brewery>> GetBreweriesByPostalCode(Address currentUserAddress)
+        {
+            Breweries = new List<Brewery>();
 
-                return Breweries;
+            var postalCodeUrl = BreweryApiURL + "";
 
+            return Breweries;
         }
     }
 }
