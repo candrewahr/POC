@@ -1,22 +1,32 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Xamarin.Forms;
 using Xamarin.Essentials;
 using System.Threading.Tasks;
+using POC.Services;
+using POC.MobileAppService.Models;
 
 namespace POC.Views
 {
     public partial class MapPage : ContentPage
     {
+        BreweryService breweryService;
+        Location UserLocation;
+        
         public MapPage()
         {
             InitializeComponent();
+            breweryService = new BreweryService();
         }
 
         protected override async void OnAppearing()
         {
             await MoveToCurrentLocation();
+            var address = new Address()
+            {
+                City = "Raleigh"
+            };
+            await breweryService.GetBreweriesByCity(address);
 
         }
 
