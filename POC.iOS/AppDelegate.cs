@@ -24,6 +24,7 @@ namespace POC.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Xamarin.FormsMaps.Init();
+            Rg.Plugins.Popup.Popup.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

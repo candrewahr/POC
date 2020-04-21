@@ -5,6 +5,7 @@ using Xamarin.Essentials;
 using POC.Services;
 using POC.MobileAppService.Models;
 using System.Collections.Generic;
+using Rg.Plugins.Popup.Services;
 
 namespace POC.Views
 {
@@ -101,7 +102,7 @@ namespace POC.Views
 
         void OnMapSettingsButtonClicked(object sender, EventArgs e)
         {
-
+            PopupNavigation.Instance.PushAsync(new MapSettingsView());
         }
 
 
