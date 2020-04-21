@@ -122,6 +122,32 @@
     <BundleResource Include="Resources\xamarin_logo%402x.png" />
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\40.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\60.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\80.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\120.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\120-1.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\180.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\20.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\40-1.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\29.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\58.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\40-2.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\80-1.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\76.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\152.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\167.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\1024.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\256.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\512.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\512-1.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\1024-1.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\58-1.png" />
+    <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\87.png" />
+    <BundleResource Include="Resources\blackMenuImage.png" />
+    <BundleResource Include="Resources\blueMenuIcon.png" />
+    <BundleResource Include="Resources\mapSettingsButton.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -146,5 +172,8 @@
       <Project>{B2751982-41A6-4DF2-AE93-DA85F8681165}</Project>
       <Name>POC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\MapHamburgerIcon.appiconset\" />
   </ItemGroup>
 </Project>

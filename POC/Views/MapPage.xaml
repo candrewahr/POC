@@ -4,13 +4,19 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" 
              x:Class="POC.Views.MapPage"
              Title="Map">
-    <StackLayout Margin="0">
-        <maps:Map x:Name="map"/>
-        <Slider Margin="0"
+
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <maps:Map x:Name="map" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+            <ImageButton Source="mapSettingsButton.png" BackgroundColor="Transparent" HorizontalOptions="Center" Pressed="OnMapSettingsButtonClicked"
+                AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".01,.90,81,81"  >               
+            </ImageButton>
+        </AbsoluteLayout>
+        <!--<Slider Margin="0"
                 Maximum="18"
                 Minimum="1"
                 Value="12"
-                ValueChanged="OnSliderValueChanged" /> 
+                ValueChanged="OnSliderValueChanged" />
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
                      Spacing="30">
@@ -20,6 +26,7 @@
                     Clicked="OnButtonClicked" />
             <Button Text="Hybrid"
                     Clicked="OnButtonClicked" />
-        </StackLayout>
+        </StackLayout>-->
     </StackLayout>
+
 </ContentPage>

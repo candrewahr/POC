@@ -31,7 +31,7 @@
 	<key>CFBundleName</key>
 	<string>POC</string>
 	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<string>Assets.xcassets/MapHamburgerIcon.appiconset</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location needed to find closest points of interest.</string>
 </dict>

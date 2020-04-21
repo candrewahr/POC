@@ -10,11 +10,12 @@ namespace POC.MobileAppService.Models
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public string PostalCode { get; set; }
         public string Country { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string Phone { get; set; }
-        public Uri Website { get; set; }
+        public string WebsiteUrl { get; set; }
         public DateTime LastUpdatedOn { get; set; }
         public string Notes { get; set; }
         public bool Done { get; set; }

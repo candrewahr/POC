@@ -2,7 +2,6 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Essentials;
-using System.Threading.Tasks;
 using POC.Services;
 using POC.MobileAppService.Models;
 using System.Collections.Generic;
@@ -12,10 +11,8 @@ namespace POC.Views
     public partial class MapPage : ContentPage
     {
         BreweryService breweryService;
-        Location UserLocation;
         List<Brewery> BreweriesInProximity;
-        bool hasAppeared;
-        
+
         public MapPage()
         {
             InitializeComponent();
@@ -24,22 +21,18 @@ namespace POC.Views
 
         protected override async void OnAppearing()
         {
-            if (!hasAppeared)
-            {
-                BreweriesInProximity = await breweryService.GetBreweriesByCity(App.UserPlacemark);
-                UpdateMapWithBreweryPins(BreweriesInProximity);
-                await MoveToCurrentLocation();
-                hasAppeared = true;
-            }            
+            BreweriesInProximity = await breweryService.GetBreweriesByCity(App.UserPlacemark);
+            UpdateMapWithBreweryPins(BreweriesInProximity);
+            MoveToCurrentLocation();
         }
 
-        public async Task MoveToCurrentLocation()
+        public void MoveToCurrentLocation()
         {
             map.IsShowingUser = true;
-            
+
             try
             {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.CurrentUserLocation.Latitude, App.CurrentUserLocation.Latitude), Distance.FromMiles(1)));
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.CurrentUserLocation.Latitude, App.CurrentUserLocation.Longitude), Distance.FromMiles(1)));
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -63,7 +56,7 @@ namespace POC.Views
         public void UpdateMapWithBreweryPins(List<Brewery> breweryList)
         {
             var pin = new Pin();
-            foreach(Brewery brewery in breweryList)
+            foreach (Brewery brewery in breweryList)
             {
                 pin.Address = brewery.Street + ", " + brewery.City + ", " + brewery.State;
                 pin.Label = brewery.Name;
@@ -93,17 +86,22 @@ namespace POC.Views
         {
             Button button = sender as Button;
             switch (button.Text)
-              {
-                  case "Street":
+            {
+                case "Street":
                     map.MapType = MapType.Street;
                     break;
-                 case "Satellite":
-                     map.MapType = MapType.Satellite;
-                     break;
-                 case "Hybrid":
-                     map.MapType = MapType.Hybrid;
+                case "Satellite":
+                    map.MapType = MapType.Satellite;
+                    break;
+                case "Hybrid":
+                    map.MapType = MapType.Hybrid;
                     break;
             }
+        }
+
+        void OnMapSettingsButtonClicked(object sender, EventArgs e)
+        {
+
         }
 
 

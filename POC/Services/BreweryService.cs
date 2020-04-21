@@ -20,15 +20,18 @@ namespace POC.Services
             _client = new HttpClient();
         }
 
+
         public async Task<List<Brewery>> GetBreweriesByCity(Placemark currentUserAddress)
         {
+
             Breweries = new List<Brewery>();
             var byCityUrl = BreweryApiURL + "by_city";
             var currentCity = currentUserAddress.Locality;
             currentCity.Replace(" ", "_");
-            var uri = new Uri(byCityUrl + "=" + currentCity);
+            var uri = new Uri(byCityUrl + "=" + currentCity+"&per_page=50");
+            
             try
-            {
+            { 
                 var response = await _client.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
