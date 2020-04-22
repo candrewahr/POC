@@ -20,15 +20,29 @@
                 ValueChanged="OnSliderValueChanged" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  
                      Spacing="18">
-                <Button WidthRequest="70" HeightRequest="40" Text="Street" BackgroundColor="DodgerBlue"
-                        TextColor="White" FontAttributes="Bold" Font="15"
-                    Clicked="OnMapTypeButtonClicked" />
-                <Button WidthRequest="70" HeightRequest="40" Text="Satellite" BackgroundColor="DodgerBlue"
-                        TextColor="White" FontAttributes="Bold" Font="15"
-                    Clicked="OnMapTypeButtonClicked" />
-                <Button WidthRequest="70" HeightRequest="40" Text="Hybrid" BackgroundColor="DodgerBlue"
-                        TextColor="White" FontAttributes="Bold" Font="15"
-                    Clicked="OnMapTypeButtonClicked" />
+              
+                <Button x:Name="StreetButton"  Text="Street" Style="{StaticResource BlueButton}" Clicked="OnStreetButtonClicked">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                        </Trigger>
+                       
+                    </Button.Triggers>
+                </Button>
+                <Button x:Name="SatteliteButton" Text="Satellite" Style="{StaticResource BlueButton}" Clicked="OnSatteliteButtonClicked">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>                      
+                        </Trigger>
+                    </Button.Triggers>
+                </Button>
+                <Button x:Name="HybridButton" Text="Hybrid" Style="{StaticResource BlueButton}" Clicked="OnHybridButtonClicked">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                        </Trigger>                         
+                    </Button.Triggers>
+                </Button>
             </StackLayout>
 
             <StackLayout>

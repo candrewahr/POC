@@ -148,6 +148,7 @@
     <BundleResource Include="Resources\blackMenuImage.png" />
     <BundleResource Include="Resources\blueMenuIcon.png" />
     <BundleResource Include="Resources\mapSettingsButton.png" />
+    <BundleResource Include="Resources\SettingsIconForMap.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -8,33 +8,64 @@ namespace POC.Views
 {
     public partial class MapSettingsView : Rg.Plugins.Popup.Pages.PopupPage
     {
-        Map _breweryMap;
-        MapViewModel viewModel;
+        private Map _breweryMap;
+        private MapViewModel viewModel;
         public MapSettingsView(Map breweryMap)
         {
             _breweryMap = breweryMap;
             InitializeComponent();
             BindingContext = viewModel = new MapViewModel();
+            SetButtonEnabledProperties(_breweryMap.MapType);
         }
 
         //onclickedevents for changing map settings...
-
-
-        void OnMapTypeButtonClicked(object sender, EventArgs e)
+     
+        void OnStreetButtonClicked(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-            switch (button.Text)
+            if (StreetButton.IsEnabled)
             {
-                case "Street":
-                    _breweryMap.MapType = MapType.Street;
-                    //TODO: PASS these settings back to the view and allow for it to make the updates to the local map.
-                    break;
-                case "Satellite":
-                    _breweryMap.MapType = MapType.Satellite;
-                    break;
-                case "Hybrid":
-                    _breweryMap.MapType = MapType.Hybrid;
-                    break;
+                _breweryMap.MapType = MapType.Street;
+                SetButtonEnabledProperties(_breweryMap.MapType);
+            }
+        }
+
+        void OnSatteliteButtonClicked(object sender, EventArgs e)
+        {
+            if (SatteliteButton.IsEnabled)
+            {
+                _breweryMap.MapType = MapType.Satellite;
+                SetButtonEnabledProperties(_breweryMap.MapType);
+            }
+        }
+
+        void OnHybridButtonClicked(object sender, EventArgs e)
+        {
+            if (HybridButton.IsEnabled)
+            {
+                _breweryMap.MapType = MapType.Hybrid;
+                SetButtonEnabledProperties(_breweryMap.MapType);
+            }
+        }
+
+        public void SetButtonEnabledProperties(MapType mapType)
+        {
+            if(mapType == MapType.Street)
+            {
+                StreetButton.IsEnabled = false;
+                SatteliteButton.IsEnabled = true;
+                HybridButton.IsEnabled = true;
+            }
+            if(mapType == MapType.Satellite)
+            {
+                SatteliteButton.IsEnabled = false;
+                HybridButton.IsEnabled = true;
+                StreetButton.IsEnabled = true;
+            }
+            if(mapType == MapType.Hybrid)
+            {
+                HybridButton.IsEnabled = false;
+                StreetButton.IsEnabled = true;
+                SatteliteButton.IsEnabled = true;
             }
         }
 
