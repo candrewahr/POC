@@ -7,8 +7,32 @@
 
     <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="20,250,20,250" Padding="20">
         <StackLayout>
-            <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="popup teset" TextColor="Black"></Label>
+            <StackLayout BackgroundColor="White" Spacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Label Text="Map Settings" Style="{StaticResource TitleFont}"></Label>
+                <Label Text="Filter By" Style="{StaticResource EntryTitleFont}"></Label>
+            </StackLayout>
+            <!--map filter settings picker here-->
+
+            <Slider Margin="0"
+                Maximum="18"
+                Minimum="1"
+                Value="12"
+                ValueChanged="OnSliderValueChanged" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  
+                     Spacing="18">
+                <Button WidthRequest="70" HeightRequest="40" Text="Street" BackgroundColor="DodgerBlue"
+                        TextColor="White" FontAttributes="Bold" Font="15"
+                    Clicked="OnMapTypeButtonClicked" />
+                <Button WidthRequest="70" HeightRequest="40" Text="Satellite" BackgroundColor="DodgerBlue"
+                        TextColor="White" FontAttributes="Bold" Font="15"
+                    Clicked="OnMapTypeButtonClicked" />
+                <Button WidthRequest="70" HeightRequest="40" Text="Hybrid" BackgroundColor="DodgerBlue"
+                        TextColor="White" FontAttributes="Bold" Font="15"
+                    Clicked="OnMapTypeButtonClicked" />
+            </StackLayout>
+
+            <StackLayout>
+                <Button Text="Apply Settings" Clicked="OnApplySettingsButtonClicked"/>
             </StackLayout>
         </StackLayout>
     </Frame>

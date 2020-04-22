@@ -6,6 +6,9 @@ using POC.Services;
 using POC.MobileAppService.Models;
 using System.Collections.Generic;
 using Rg.Plugins.Popup.Services;
+using POC.ViewModels;
+using Map = Xamarin.Forms.Maps;
+
 
 namespace POC.Views
 {
@@ -13,9 +16,11 @@ namespace POC.Views
     {
         BreweryService breweryService;
         List<Brewery> BreweriesInProximity;
+        MapViewModel viewModel;
 
         public MapPage()
         {
+            BindingContext = viewModel = new MapViewModel();
             InitializeComponent();
             breweryService = new BreweryService();
         }
@@ -27,13 +32,18 @@ namespace POC.Views
             MoveToCurrentLocation();
         }
 
+        void OnMapSettingsButtonClicked(object sender, EventArgs e)
+        {
+            PopupNavigation.Instance.PushAsync(new MapSettingsView(BreweryMap));
+        }
+
         public void MoveToCurrentLocation()
         {
-            map.IsShowingUser = true;
+            BreweryMap.IsShowingUser = true;
 
             try
             {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.CurrentUserLocation.Latitude, App.CurrentUserLocation.Longitude), Distance.FromMiles(1)));
+                BreweryMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.CurrentUserLocation.Latitude, App.CurrentUserLocation.Longitude), Distance.FromMiles(1)));
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -67,44 +77,8 @@ namespace POC.Views
                 double.TryParse(brewery.Latitude, out var latitudeDouble);
                 double.TryParse(brewery.Longitude, out var longitudeDouble);
                 pin.Position = new Position(latitudeDouble, longitudeDouble);
-                map.Pins.Add(pin);
+                BreweryMap.Pins.Add(pin);
             }
         }
-
-
-        void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            double zoomLevel = e.NewValue;
-            double latlongDegrees = 360 / (Math.Pow(2, zoomLevel));
-            if (map.VisibleRegion != null)
-            {
-                map.MoveToRegion(new MapSpan(map.VisibleRegion.Center, latlongDegrees, latlongDegrees));
-            }
-        }
-
-
-        void OnButtonClicked(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            switch (button.Text)
-            {
-                case "Street":
-                    map.MapType = MapType.Street;
-                    break;
-                case "Satellite":
-                    map.MapType = MapType.Satellite;
-                    break;
-                case "Hybrid":
-                    map.MapType = MapType.Hybrid;
-                    break;
-            }
-        }
-
-        void OnMapSettingsButtonClicked(object sender, EventArgs e)
-        {
-            PopupNavigation.Instance.PushAsync(new MapSettingsView());
-        }
-
-
     }
 }

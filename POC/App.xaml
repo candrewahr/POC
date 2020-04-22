@@ -2,11 +2,23 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="POC.App">
     <Application.Resources>
         <ResourceDictionary>
-            <!--Global Styles-->
             <Color x:Key="NavigationPrimary">#2196F3</Color>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
+            </Style>
+            <!--Header Title Font For Popup Pages-->
+            <Style x:Key= "TitleFont" TargetType="Label">
+                <Setter Property="FontSize" Value="Header"/>
+                <Setter Property="TextColor" Value="DarkSlateGray"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+
+             <!--Entry Titles-->
+             <Style x:Key= "EntryTitleFont" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="TextColor" Value="DimGray"/>
+                <Setter Property="FontAttributes" Value="None"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
