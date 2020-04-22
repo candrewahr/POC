@@ -27,7 +27,12 @@ namespace POC.Views
 
         protected override async void OnAppearing()
         {
-            BreweriesInProximity = await breweryService.GetBreweriesByCity(App.UserPlacemark);
+            if (App.UserPlacemark.Location == null)
+            {
+                var currentLocation = await App.RetrieveUserLocation();
+                await App.ReverseGeocode(currentLocation);
+            }
+            BreweriesInProximity = await breweryService.GetBreweriesByState(App.UserPlacemark);
             UpdateMapWithBreweryPins(BreweriesInProximity);
             MoveToCurrentLocation();
         }

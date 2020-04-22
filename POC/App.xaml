@@ -9,15 +9,15 @@
             </Style>
             <!--Header Title Font For Popup Pages-->
             <Style x:Key= "TitleFont" TargetType="Label">
-                <Setter Property="FontSize" Value="Header"/>
+                <Setter Property="FontSize" Value="Large"/>
                 <Setter Property="TextColor" Value="DarkSlateGray"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
             <!--Entry Titles-->
             <Style x:Key= "EntryTitleFont" TargetType="Label">
-                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="FontSize" Value="Header"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="DimGray"/>
-                <Setter Property="FontAttributes" Value="None"/>
             </Style>
 
             <!--Blue Button Enabled and Disabled States-->

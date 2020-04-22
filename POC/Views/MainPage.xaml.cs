@@ -20,8 +20,7 @@ namespace POC.Views
             InitializeComponent();
 
             MasterBehavior = MasterBehavior.Popover;
-
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Map, (NavigationPage)Detail);            
         }
 
         public async Task NavigateFromMenu(int id)
@@ -30,14 +29,14 @@ namespace POC.Views
             {
                 switch (id)
                 {
+                    case (int)MenuItemType.Map:
+                        MenuPages.Add(id, new NavigationPage(new MapPage()));
+                        break;
                     case (int)MenuItemType.Browse:
                         MenuPages.Add(id, new NavigationPage(new ItemsPage()));
                         break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
-                        break;
-                    case (int)MenuItemType.Map:
-                        MenuPages.Add(id, new NavigationPage(new MapPage()));
                         break;
                 }
             }

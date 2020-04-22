@@ -9,7 +9,7 @@ namespace POC.Services
     {
         Task<List<Brewery>> GetBreweriesByCity(Placemark currentUserAddress);
 
-        Task<List<Brewery>> GetBreweriesByPostalCode(Placemark currentUserAddress);
+        Task<List<Brewery>> GetBreweriesByState(Placemark currentUserAddress);
 
 
     }

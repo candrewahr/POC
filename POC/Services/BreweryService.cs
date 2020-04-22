@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using POC.MobileAppService.Models;
 using Xamarin.Essentials;
+using POC.Extensions;
 
 namespace POC.Services
 {
@@ -20,53 +21,108 @@ namespace POC.Services
             _client = new HttpClient();
         }
 
-
+        /// <summary>
+        /// Retrieve a list of breweries by city.
+        /// </summary>
+        /// <param name="currentUserAddress"></param>
+        /// <returns></returns>
         public async Task<List<Brewery>> GetBreweriesByCity(Placemark currentUserAddress)
         {
 
             Breweries = new List<Brewery>();
+
+            //set city or locality name & do a replace on any potential spaces
             var byCityUrl = BreweryApiURL + "by_city";
             var currentCity = currentUserAddress.Locality;
             currentCity.Replace(" ", "_");
-            var uri = new Uri(byCityUrl + "=" + currentCity+"&per_page=50");
-            
-            try
-            { 
-                var response = await _client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    Breweries = JsonConvert.DeserializeObject<List<Brewery>>(content);
-                }
-            }
-            catch (Exception ex)
+
+            //url construction
+            var page = 1;
+            var uri = new Uri(byCityUrl + "=" + currentCity + "&per_page=50&page=");
+
+            while (page <= 10)
             {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                try
+                {
+                    var response = await _client.GetAsync(uri + page.ToString());
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var BreweryPayload = JsonConvert.DeserializeObject<List<Brewery>>(content);
+                        if (BreweryPayload.Count > 0)
+                        {
+                            foreach (var brewery in BreweryPayload)
+                            {
+                                Breweries.Add(brewery);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                        page++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                }
             }
 
             return Breweries;
         }
-
-        public async Task<List<Brewery>> GetBreweriesByPostalCode(Placemark currentUserAddress)
+        
+        /// <summary>
+        /// Retrieve a list of all breweries in a state with a limit of 500
+        /// </summary>
+        /// <param name="currentUserAddress"></param>
+        /// <returns></returns>
+        public async Task<List<Brewery>> GetBreweriesByState(Placemark currentUserAddress)
         {
-            Breweries = new List<Brewery>();
-            var byPostalCodeUrl = BreweryApiURL + "by_postal";
-            var currentPostalCode = currentUserAddress.PostalCode;
-            var uri = new Uri(byPostalCodeUrl + "=" + currentPostalCode);
 
-            try
+            Breweries = new List<Brewery>();
+
+            //set city or locality name & do a replace on any potential spaces
+            var byStateUrl = BreweryApiURL + "by_state";
+            var currentStateAbbreviation = currentUserAddress.AdminArea;
+            var currentState = currentStateAbbreviation.GetFullStateName();
+            currentState.Replace(" ", "_");
+
+            //url construction
+            var page = 1;
+            var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=50&page=");
+
+            while (page <= 10)
             {
-                var response = await _client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    Breweries = JsonConvert.DeserializeObject<List<Brewery>>(content);
+                    var response = await _client.GetAsync(uri + page.ToString());
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var BreweryPayload = JsonConvert.DeserializeObject<List<Brewery>>(content);
+                        if (BreweryPayload.Count > 0)
+                        {
+                            foreach (var brewery in BreweryPayload)
+                            {
+                                Breweries.Add(brewery);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                        page++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
-            }
+
             return Breweries;
         }
 

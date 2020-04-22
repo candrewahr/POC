@@ -5,48 +5,53 @@
              x:Class="POC.Views.MapSettingsView"
             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
 
-    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="20,250,20,250" Padding="20">
-        <StackLayout>
-            <StackLayout BackgroundColor="White" Spacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="Map Settings" Style="{StaticResource TitleFont}"></Label>
-                <Label Text="Filter By" Style="{StaticResource EntryTitleFont}"></Label>
-            </StackLayout>
-            <!--map filter settings picker here-->
+    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="20,230,20,230" Padding="20">
+        <StackLayout Spacing="30" Padding="0">
+            <Label Text="Map Settings" Style="{StaticResource TitleFont}"></Label>
 
-            <Slider Margin="0"
+            <!--Filter Picker Stack Layout-->
+            <StackLayout Padding="0" Spacing="20">
+                <Label Text="Filter Breweries By" Style="{StaticResource EntryTitleFont}"></Label>
+                <Picker></Picker>
+            </StackLayout>
+
+            <!--Slider Stack Layout-->
+            <StackLayout Padding="0" Spacing="10">
+                <Label Text="Zoom Slider" Padding= "5,0,0,0" Style="{StaticResource EntryTitleFont}"></Label>
+                <Slider Margin="0"
                 Maximum="18"
                 Minimum="1"
                 Value="12"
                 ValueChanged="OnSliderValueChanged" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  
-                     Spacing="18">
-              
-                <Button x:Name="StreetButton"  Text="Street" Style="{StaticResource BlueButton}" Clicked="OnStreetButtonClicked">
-                    <Button.Triggers>
-                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
-                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
-                        </Trigger>
-                       
-                    </Button.Triggers>
-                </Button>
-                <Button x:Name="SatteliteButton" Text="Satellite" Style="{StaticResource BlueButton}" Clicked="OnSatteliteButtonClicked">
-                    <Button.Triggers>
-                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
-                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>                      
-                        </Trigger>
-                    </Button.Triggers>
-                </Button>
-                <Button x:Name="HybridButton" Text="Hybrid" Style="{StaticResource BlueButton}" Clicked="OnHybridButtonClicked">
-                    <Button.Triggers>
-                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
-                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
-                        </Trigger>                         
-                    </Button.Triggers>
-                </Button>
             </StackLayout>
 
-            <StackLayout>
-                <Button Text="Apply Settings" Clicked="OnApplySettingsButtonClicked"/>
+            <!--Map Type Radio Buttons Stack Layout-->
+            <StackLayout Padding="0" Spacing="20">
+                <Label Text="Map Type" Padding="5,0,0,0" Style="{StaticResource EntryTitleFont}"></Label>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  
+                     Spacing="18">
+                    <Button x:Name="StreetButton"  Text="Street" Style="{StaticResource BlueButton}" Clicked="OnStreetButtonClicked">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button x:Name="SatteliteButton" Text="Satellite" Style="{StaticResource BlueButton}" Clicked="OnSatteliteButtonClicked">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button x:Name="HybridButton" Text="Hybrid" Style="{StaticResource BlueButton}" Clicked="OnHybridButtonClicked">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </Frame>

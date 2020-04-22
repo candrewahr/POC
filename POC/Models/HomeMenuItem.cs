@@ -6,9 +6,9 @@ namespace POC.Models
 {
     public enum MenuItemType
     {
+        Map,
         Browse,
-        About,
-        Map
+        About
     }
     public class HomeMenuItem
     {

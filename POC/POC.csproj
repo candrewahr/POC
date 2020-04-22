@@ -20,4 +20,7 @@
   <ItemGroup>
     <None Include="..\.editorconfig" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
 </Project>
