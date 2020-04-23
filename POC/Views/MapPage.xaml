@@ -7,7 +7,9 @@
 
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
          <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <maps:Map x:Name="BreweryMap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+            <maps:Map x:Name="BreweryMap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" x:FieldModifier="public"
+                     />
             <ImageButton Source="SettingsIconForMap.png" BackgroundColor="Transparent" HorizontalOptions="Center" Pressed="OnMapSettingsButtonClicked"
                 AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".01,.90,95,95">               
             </ImageButton>

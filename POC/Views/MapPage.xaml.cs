@@ -14,15 +14,16 @@ namespace POC.Views
 {
     public partial class MapPage : ContentPage
     {
-        BreweryService breweryService;
-        List<Brewery> BreweriesInProximity;
-        MapViewModel viewModel;
+        public List<Brewery> BreweriesInProximity { get; set; }
+        public MapViewModel viewModel;
+        public Placemark UserPlacemark { get; set; }
 
         public MapPage()
         {
-            BindingContext = viewModel = new MapViewModel();
+            BindingContext = viewModel = new MapViewModel(this);
             InitializeComponent();
-            breweryService = new BreweryService();
+            UserPlacemark = new Placemark(App.UserPlacemark);
+            BreweriesInProximity = new List<Brewery>();
         }
 
         protected override async void OnAppearing()
@@ -30,60 +31,17 @@ namespace POC.Views
             if (App.UserPlacemark.Location == null)
             {
                 var currentLocation = await App.RetrieveUserLocation();
-                await App.ReverseGeocode(currentLocation);
+                UserPlacemark = await App.ReverseGeocode(currentLocation);
             }
-            BreweriesInProximity = await breweryService.GetBreweriesByState(App.UserPlacemark);
-            UpdateMapWithBreweryPins(BreweriesInProximity);
-            MoveToCurrentLocation();
+            BreweriesInProximity = await viewModel.FilterBreweries(UserPlacemark);
+            viewModel.UpdateMapWithBreweryPins(BreweriesInProximity);
+            BreweryMap.MapType = (MapType) Preferences.Get("defaultMapType", (int)MapType.Street);
+            viewModel.MoveToCurrentLocation();
         }
 
         void OnMapSettingsButtonClicked(object sender, EventArgs e)
         {
-            PopupNavigation.Instance.PushAsync(new MapSettingsView(BreweryMap));
-        }
-
-        public void MoveToCurrentLocation()
-        {
-            BreweryMap.IsShowingUser = true;
-
-            try
-            {
-                BreweryMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(App.CurrentUserLocation.Latitude, App.CurrentUserLocation.Longitude), Distance.FromMiles(1)));
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception               
-            }
-            catch (FeatureNotEnabledException fneEx)
-            {
-                // Handle not enabled on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                //Handle a permission exception
-            }
-            catch (Exception ex)
-            {
-                // Unable to get location
-                //Location may not be available because of latency issues...
-            }
-        }
-
-        public void UpdateMapWithBreweryPins(List<Brewery> breweryList)
-        {
-            var pin = new Pin();
-            foreach (Brewery brewery in breweryList)
-            {
-                pin.Address = brewery.Street + ", " + brewery.City + ", " + brewery.State;
-                pin.Label = brewery.Name;
-                pin.Type = PinType.Place;
-
-                //have to try to cast the lat and long to doubles in order to create a position object...
-                double.TryParse(brewery.Latitude, out var latitudeDouble);
-                double.TryParse(brewery.Longitude, out var longitudeDouble);
-                pin.Position = new Position(latitudeDouble, longitudeDouble);
-                BreweryMap.Pins.Add(pin);
-            }
-        }
+            PopupNavigation.Instance.PushAsync(new MapSettingsView(BreweryMap, viewModel));
+        }        
     }
 }

@@ -15,33 +15,25 @@
             </Style>
             <!--Entry Titles-->
             <Style x:Key= "EntryTitleFont" TargetType="Label">
-                <Setter Property="FontSize" Value="Header"/>
+                <Setter Property="FontSize" Value="Medium"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="DimGray"/>
             </Style>
 
             <!--Blue Button Enabled and Disabled States-->
-            <Style x:Key="BlueButton" TargetType="Button">
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="WidthRequest" Value="100"/>
+            <Style x:Key="BlueButton" TargetType="Button">              
                 <Setter Property="BackgroundColor" Value="DodgerBlue"/>
                 <Setter Property="TextColor" Value="White"/>
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontSize" Value="13"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="Margin" Value="0"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="VerticalOptions" Value="End"/>
             </Style>
             <Style x:Key="BlueButtonDisabled" TargetType="Button">
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="WidthRequest" Value="100"/>
                 <Setter Property="BackgroundColor" Value="LightGray"/>
                 <Setter Property="TextColor" Value="White"/>
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontSize" Value="Medium"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="VerticalOptions" Value="End"/>
+                <Setter Property="Margin" Value="0"/>           
             </Style>
         </ResourceDictionary>
     </Application.Resources>

@@ -28,7 +28,6 @@ namespace POC.Services
         /// <returns></returns>
         public async Task<List<Brewery>> GetBreweriesByCity(Placemark currentUserAddress)
         {
-
             Breweries = new List<Brewery>();
 
             //set city or locality name & do a replace on any potential spaces
@@ -93,7 +92,7 @@ namespace POC.Services
             var page = 1;
             var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=50&page=");
 
-            while (page <= 10)
+            while (page <= 20)
             {
                 try
                 {

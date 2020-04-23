@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using POC.ViewModels;
+using Xamarin.Essentials;
+using Map = Xamarin.Forms.Maps.Map;
 
 namespace POC.Views
 {
     public partial class MapSettingsView : Rg.Plugins.Popup.Pages.PopupPage
     {
         private Map _breweryMap;
-        private MapViewModel viewModel;
-        public MapSettingsView(Map breweryMap)
+        private MapViewModel _viewModel;
+        public MapSettingsView(Map breweryMap, MapViewModel viewModel)
         {
             _breweryMap = breweryMap;
             InitializeComponent();
-            BindingContext = viewModel = new MapViewModel();
+            _viewModel = viewModel;
             SetButtonEnabledProperties(_breweryMap.MapType);
         }
 
@@ -49,20 +50,23 @@ namespace POC.Views
 
         public void SetButtonEnabledProperties(MapType mapType)
         {
-            if(mapType == MapType.Street)
+            if (mapType == MapType.Street)
             {
+                Preferences.Set("defaultMapType", (int)MapType.Street);
                 StreetButton.IsEnabled = false;
                 SatteliteButton.IsEnabled = true;
                 HybridButton.IsEnabled = true;
             }
-            if(mapType == MapType.Satellite)
+            if (mapType == MapType.Satellite)
             {
+                Preferences.Set("defaultMapType", (int)MapType.Satellite);
                 SatteliteButton.IsEnabled = false;
                 HybridButton.IsEnabled = true;
                 StreetButton.IsEnabled = true;
             }
-            if(mapType == MapType.Hybrid)
+            if (mapType == MapType.Hybrid)
             {
+                Preferences.Set("defaultMapType", (int)MapType.Hybrid);
                 HybridButton.IsEnabled = false;
                 StreetButton.IsEnabled = true;
                 SatteliteButton.IsEnabled = true;
@@ -81,7 +85,7 @@ namespace POC.Views
 
         public void OnApplySettingsButtonClicked(object sender, EventArgs e)
         {
-            viewModel.MapSettingsUpdated(_breweryMap);
+            _viewModel.MapSettingsUpdated(_breweryMap);
         }
 
     }

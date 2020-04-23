@@ -35,7 +35,7 @@ namespace POC
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Default);
-                var UserLocation = await Geolocation.GetLocationAsync(request) ?? await Geolocation.GetLastKnownLocationAsync();
+                var UserLocation = await Geolocation.GetLocationAsync(request);
                 CurrentUserLocation = UserLocation;
                 return UserLocation;
             }
@@ -67,6 +67,14 @@ namespace POC
             {
                 var placemarks = await Geocoding.GetPlacemarksAsync(location);
                 Placemark userPlacemark = placemarks?.FirstOrDefault();
+
+                //Try to get location from last known if the initial Location fails...
+                //Added to address some issues with getting location on start up
+                if(userPlacemark.Location == null)
+                {
+                    placemarks = await Geocoding.GetPlacemarksAsync(await Geolocation.GetLastKnownLocationAsync());
+                    userPlacemark = placemarks?.FirstOrDefault();
+                }
                 return userPlacemark; 
             }
             catch (FeatureNotSupportedException fnsEx)
