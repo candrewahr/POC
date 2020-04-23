@@ -149,6 +149,7 @@
     <BundleResource Include="Resources\blueMenuIcon.png" />
     <BundleResource Include="Resources\mapSettingsButton.png" />
     <BundleResource Include="Resources\SettingsIconForMap.png" />
+    <BundleResource Include="Resources\iOSAndAndroid.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -162,7 +163,7 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.617" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.2" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.1" />
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>4.5.0.617</Version>
     </PackageReference>

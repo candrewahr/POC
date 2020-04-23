@@ -2,13 +2,11 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Essentials;
-using POC.Services;
 using POC.MobileAppService.Models;
 using System.Collections.Generic;
 using Rg.Plugins.Popup.Services;
 using POC.ViewModels;
-using Map = Xamarin.Forms.Maps;
-
+using System.Threading;
 
 namespace POC.Views
 {
@@ -28,20 +26,17 @@ namespace POC.Views
 
         protected override async void OnAppearing()
         {
-            if (App.UserPlacemark.Location == null)
-            {
-                var currentLocation = await App.RetrieveUserLocation();
-                UserPlacemark = await App.ReverseGeocode(currentLocation);
-            }
+            var currentLocation = await App.RetrieveUserLocation();
+            UserPlacemark = await App.ReverseGeocode(currentLocation);
+            viewModel.MoveToCurrentLocation();
             BreweriesInProximity = await viewModel.FilterBreweries(UserPlacemark);
             viewModel.UpdateMapWithBreweryPins(BreweriesInProximity);
-            BreweryMap.MapType = (MapType) Preferences.Get("defaultMapType", (int)MapType.Street);
-            viewModel.MoveToCurrentLocation();
+            BreweryMap.MapType = (MapType)Preferences.Get("defaultMapType", (int)MapType.Street);
         }
 
         void OnMapSettingsButtonClicked(object sender, EventArgs e)
         {
             PopupNavigation.Instance.PushAsync(new MapSettingsView(BreweryMap, viewModel));
-        }        
+        }
     }
 }

@@ -34,10 +34,18 @@ namespace POC
         {
             try
             {
-                var request = new GeolocationRequest(GeolocationAccuracy.Default);
+                var request = new GeolocationRequest(GeolocationAccuracy.Default, new TimeSpan(0, 0, 0, 0, 500));
                 var UserLocation = await Geolocation.GetLocationAsync(request);
-                CurrentUserLocation = UserLocation;
-                return UserLocation;
+                if(UserLocation!= null)
+                {
+                    CurrentUserLocation = UserLocation;
+                    return UserLocation;
+                }
+                else
+                {
+                    var lastKnownLocation = await Geolocation.GetLastKnownLocationAsync();
+                    return lastKnownLocation;
+                }
             }
 
             catch (FeatureNotSupportedException fnsEx)
@@ -70,12 +78,12 @@ namespace POC
 
                 //Try to get location from last known if the initial Location fails...
                 //Added to address some issues with getting location on start up
-                if(userPlacemark.Location == null)
+                if (userPlacemark.Location == null)
                 {
                     placemarks = await Geocoding.GetPlacemarksAsync(await Geolocation.GetLastKnownLocationAsync());
                     userPlacemark = placemarks?.FirstOrDefault();
                 }
-                return userPlacemark; 
+                return userPlacemark;
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -91,10 +99,17 @@ namespace POC
 
         protected async override void OnStart()
         {
-            var currentLocation = await RetrieveUserLocation();
-            
-            UserPlacemark = await ReverseGeocode(currentLocation);
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (!status.Equals(PermissionStatus.Granted))
+            {
+                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            }
 
+            if (status.Equals(PermissionStatus.Granted))
+            {
+                var currentLocation = await RetrieveUserLocation();
+                UserPlacemark = await ReverseGeocode(currentLocation);
+            }
         }
 
 

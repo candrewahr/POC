@@ -3,15 +3,54 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POC.Views.MapSettingsView"
-            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+            xmlns:converters="clr-namespace:POC.Converters">
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <converters:IntEnumConverter x:Key="IntEnum"/>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
     <Frame HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White"  WidthRequest="325" HeightRequest="375" Padding="0">
         <StackLayout BackgroundColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="20" Spacing="0">
 
             <Label Text="Map Settings" Style="{StaticResource TitleFont}" Padding="0,0,0,25"/>
-            <Label Text="FilterBy" Style="{StaticResource EntryTitleFont}" Padding="0,0,0,15"/>
-            <Picker></Picker>
+            <Label Text="Filter Map By" Style="{StaticResource EntryTitleFont}" Padding="0,0,0,15"/>
+
+             <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="CityButton"  Grid.Column ="0" Text="City" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                        </Trigger>
+                    </Button.Triggers>
+                </Button>
+                <Button x:Name="StateButton" Grid.Column ="1" Text="State" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                        </Trigger>
+                    </Button.Triggers>
+                </Button>
+                <Button x:Name="PostalCodeButton" Grid.Column ="2" Text="Postal Code" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
+                        </Trigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
             <Label Text="Map Zoom Slider" Style="{StaticResource EntryTitleFont}" Padding="0,25,0,10"/>
-            <Slider Maximum="18" Minimum="1" Value="12" ValueChanged="OnSliderValueChanged" />
+            <Slider Maximum="18" Minimum="1" Value="12" ValueChanged="OnSliderValueChanged" MinimumTrackColor="DodgerBlue"
+                    MaximumTrackColor="LightGray" ThumbColor="DodgerBlue"/>
             <Label Text="Map Type" Padding="0,20,0,20" Style="{StaticResource EntryTitleFont}"></Label>
             <!--Map Type Radio Buttons Stack Layout-->
             <Grid >
@@ -24,21 +63,21 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="StreetButton"  Grid.Column ="0" Text="Street" Style="{StaticResource BlueButton}" Clicked="OnStreetButtonClicked">
+                <Button x:Name="StreetButton"  Grid.Column ="0" Text="Street" Style="{StaticResource BlueButton}" Clicked="OnMapTypeButtonClicked">
                     <Button.Triggers>
                         <Trigger TargetType="Button" Property="IsEnabled" Value="False">
                             <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
                         </Trigger>
                     </Button.Triggers>
                 </Button>
-                <Button x:Name="SatteliteButton" Grid.Column ="1" Text="Satellite" Style="{StaticResource BlueButton}" Clicked="OnSatteliteButtonClicked">
+                <Button x:Name="SatteliteButton" Grid.Column ="1" Text="Satellite" Style="{StaticResource BlueButton}" Clicked="OnMapTypeButtonClicked">
                     <Button.Triggers>
                         <Trigger TargetType="Button" Property="IsEnabled" Value="False">
                             <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
                         </Trigger>
                     </Button.Triggers>
                 </Button>
-                <Button x:Name="HybridButton" Grid.Column ="2" Text="Hybrid" Style="{StaticResource BlueButton}" Clicked="OnHybridButtonClicked">
+                <Button x:Name="HybridButton" Grid.Column ="2" Text="Hybrid" Style="{StaticResource BlueButton}" Clicked="OnMapTypeButtonClicked">
                     <Button.Triggers>
                         <Trigger TargetType="Button" Property="IsEnabled" Value="False">
                             <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>

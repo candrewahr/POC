@@ -31,7 +31,7 @@
             <Style x:Key="BlueButtonDisabled" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="LightGray"/>
                 <Setter Property="TextColor" Value="White"/>
-                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="FontSize" Value="13"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="Margin" Value="0"/>           
             </Style>

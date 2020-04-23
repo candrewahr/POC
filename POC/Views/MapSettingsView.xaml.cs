@@ -4,6 +4,8 @@ using Xamarin.Forms.Maps;
 using POC.ViewModels;
 using Xamarin.Essentials;
 using Map = Xamarin.Forms.Maps.Map;
+using POC.Models;
+using System.Threading.Tasks;
 
 namespace POC.Views
 {
@@ -16,39 +18,20 @@ namespace POC.Views
             _breweryMap = breweryMap;
             InitializeComponent();
             _viewModel = viewModel;
-            SetButtonEnabledProperties(_breweryMap.MapType);
+            BindingContext = _viewModel;
+            SetMapTypeButtonEnabledProperties(_breweryMap.MapType);
+            SetSearchSettingsButtonEnabledProperties((Enumerations.MapSearchType)Preferences.Get("defaultMapSearchType",
+                (int)Enumerations.MapSearchType.City));
         }
 
         //onclickedevents for changing map settings...
-     
-        void OnStreetButtonClicked(object sender, EventArgs e)
-        {
-            if (StreetButton.IsEnabled)
-            {
-                _breweryMap.MapType = MapType.Street;
-                SetButtonEnabledProperties(_breweryMap.MapType);
-            }
-        }
 
-        void OnSatteliteButtonClicked(object sender, EventArgs e)
-        {
-            if (SatteliteButton.IsEnabled)
-            {
-                _breweryMap.MapType = MapType.Satellite;
-                SetButtonEnabledProperties(_breweryMap.MapType);
-            }
-        }
 
-        void OnHybridButtonClicked(object sender, EventArgs e)
-        {
-            if (HybridButton.IsEnabled)
-            {
-                _breweryMap.MapType = MapType.Hybrid;
-                SetButtonEnabledProperties(_breweryMap.MapType);
-            }
-        }
-
-        public void SetButtonEnabledProperties(MapType mapType)
+        /// <summary>
+        /// Used to set the enabled properties on Map Type buttons in order to simulate radio button functionality.
+        /// </summary>
+        /// <param name="mapType"></param>
+        public void SetMapTypeButtonEnabledProperties(MapType mapType)
         {
             if (mapType == MapType.Street)
             {
@@ -73,6 +56,71 @@ namespace POC.Views
             }
         }
 
+        public void SetSearchSettingsButtonEnabledProperties(Enumerations.MapSearchType mapSearchType)
+        {
+            if (mapSearchType == Enumerations.MapSearchType.City)
+            {
+                CityButton.IsEnabled = false;
+                StateButton.IsEnabled = true;
+                PostalCodeButton.IsEnabled = true;
+            }
+            if (mapSearchType == Enumerations.MapSearchType.State)
+            {
+                StateButton.IsEnabled = false;
+                CityButton.IsEnabled = true;
+                PostalCodeButton.IsEnabled = true;
+            }
+            if (mapSearchType == Enumerations.MapSearchType.PostalCode)
+            {
+                PostalCodeButton.IsEnabled = false;
+                CityButton.IsEnabled = true;
+                StateButton.IsEnabled = true;
+            }
+        }
+
+        void OnSearchSettingsButtonClicked(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            switch (button.Text)
+            {
+                case "City":
+                    Preferences.Set("defaultMapSearchType", (int)Enumerations.MapSearchType.City);
+                    MapSettingsUpdated();
+                    SetSearchSettingsButtonEnabledProperties(Enumerations.MapSearchType.City);
+                    break;
+                case "State":
+                    Preferences.Set("defaultMapSearchType", (int)Enumerations.MapSearchType.State);
+                    MapSettingsUpdated();
+                    SetSearchSettingsButtonEnabledProperties(Enumerations.MapSearchType.State);
+                    break;
+                case "Postal Code":
+                    Preferences.Set("defaultMapSearchType", (int)Enumerations.MapSearchType.PostalCode);
+                    MapSettingsUpdated();
+                    SetSearchSettingsButtonEnabledProperties(Enumerations.MapSearchType.PostalCode);
+                    break;
+            }
+        }
+
+        void OnMapTypeButtonClicked(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            switch (button.Text)
+            {
+                case "Street":
+                    _breweryMap.MapType = MapType.Street;
+                    SetMapTypeButtonEnabledProperties(_breweryMap.MapType);
+                    break;
+                case "Satellite":
+                    _breweryMap.MapType = MapType.Satellite;
+                    SetMapTypeButtonEnabledProperties(_breweryMap.MapType);
+                    break;
+                case "Hybrid":
+                    _breweryMap.MapType = MapType.Hybrid;
+                    SetMapTypeButtonEnabledProperties(_breweryMap.MapType);
+                    break;
+            }
+        }
+
         public void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
         {
             double zoomLevel = e.NewValue;
@@ -83,9 +131,19 @@ namespace POC.Views
             }
         }
 
-        public void OnApplySettingsButtonClicked(object sender, EventArgs e)
+        public async Task<TaskStatus> MapSettingsUpdated()
         {
-            _viewModel.MapSettingsUpdated(_breweryMap);
+            try
+            {
+                var breweriesInProximity = await _viewModel.FilterBreweries(App.UserPlacemark);
+                _viewModel.UpdateMapWithBreweryPins(breweriesInProximity);
+                _viewModel.MoveToCurrentLocation();
+                return TaskStatus.RanToCompletion;
+            }
+            catch
+            {
+                return TaskStatus.Faulted;
+            }
         }
 
     }

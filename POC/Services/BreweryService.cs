@@ -84,15 +84,19 @@ namespace POC.Services
 
             //set city or locality name & do a replace on any potential spaces
             var byStateUrl = BreweryApiURL + "by_state";
-            var currentStateAbbreviation = currentUserAddress.AdminArea;
-            var currentState = currentStateAbbreviation.GetFullStateName();
+            var currentState = currentUserAddress.AdminArea;
+            if(currentState.Length == 3)
+            {
+                currentState = currentState.GetFullStateName();
+            }
+
             currentState.Replace(" ", "_");
 
             //url construction
             var page = 1;
             var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=50&page=");
 
-            while (page <= 20)
+            while (page <= 2)
             {
                 try
                 {
