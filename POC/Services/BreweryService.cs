@@ -32,14 +32,14 @@ namespace POC.Services
 
             //set city or locality name & do a replace on any potential spaces
             var byCityUrl = BreweryApiURL + "by_city";
-            var currentCity = currentUserAddress.Locality;
+            var currentCity = currentUserAddress.Locality;          
             currentCity.Replace(" ", "_");
 
             //url construction
             var page = 1;
             var uri = new Uri(byCityUrl + "=" + currentCity + "&per_page=50&page=");
 
-            while (page <= 10)
+            while (page <= 3)
             {
                 try
                 {
@@ -85,7 +85,9 @@ namespace POC.Services
             //set city or locality name & do a replace on any potential spaces
             var byStateUrl = BreweryApiURL + "by_state";
             var currentState = currentUserAddress.AdminArea;
-            if(currentState.Length == 3)
+
+            //if state is abbreviated, we need the entire state name... call a string extension to get it 
+            if(currentState.Length == 2)
             {
                 currentState = currentState.GetFullStateName();
             }
@@ -96,7 +98,59 @@ namespace POC.Services
             var page = 1;
             var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=50&page=");
 
-            while (page <= 2)
+            while (page <= 3)
+            {
+                try
+                {
+                    var response = await _client.GetAsync(uri + page.ToString());
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var BreweryPayload = JsonConvert.DeserializeObject<List<Brewery>>(content);
+                        if (BreweryPayload.Count > 0)
+                        {
+                            foreach (var brewery in BreweryPayload)
+                            {
+                                Breweries.Add(brewery);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                        page++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                }
+            }
+
+            return Breweries;
+        }
+
+        /// <summary>
+        /// Retrieve a list of all breweries in a Postal Code
+        /// </summary>
+        /// <param name="currentUserAddress"></param>
+        /// <returns></returns>
+        public async Task<List<Brewery>> GetBreweriesByPostalCode(Placemark currentUserAddress)
+        {
+
+            Breweries = new List<Brewery>();
+
+            //set city or locality name & do a replace on any potential spaces
+            var byPostalUrl = BreweryApiURL + "by_postal";
+            var currentPostalCode = currentUserAddress.PostalCode;
+            currentPostalCode.Replace(" ", "_");
+
+            //url construction
+            var page = 1;
+            var uri = new Uri(byPostalUrl + "=" + currentPostalCode + "&per_page=50&page=");
+
+            while (page <= 3)
             {
                 try
                 {

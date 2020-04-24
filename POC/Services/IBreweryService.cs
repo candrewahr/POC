@@ -11,6 +11,8 @@ namespace POC.Services
 
         Task<List<Brewery>> GetBreweriesByState(Placemark currentUserAddress);
 
+        Task<List<Brewery>> GetBreweriesByPostalCode(Placemark currentUserAddress);
+
 
     }
 }

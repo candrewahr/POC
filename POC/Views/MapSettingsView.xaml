@@ -1,22 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<pages:PopupPage  
+<pages:PopupPage
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POC.Views.MapSettingsView"
-            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-            xmlns:converters="clr-namespace:POC.Converters">
-    <pages:PopupPage.Resources>
-        <ResourceDictionary>
-            <converters:IntEnumConverter x:Key="IntEnum"/>
-        </ResourceDictionary>
-    </pages:PopupPage.Resources>
-    <Frame HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White"  WidthRequest="325" HeightRequest="375" Padding="0">
-        <StackLayout BackgroundColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="20" Spacing="0">
+            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
 
+    <Frame HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White"  WidthRequest="325" HeightRequest="375" Padding="0">
+        <StackLayout BackgroundColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Margin="20" Spacing="0">
             <Label Text="Map Settings" Style="{StaticResource TitleFont}" Padding="0,0,0,25"/>
             <Label Text="Filter Map By" Style="{StaticResource EntryTitleFont}" Padding="0,0,0,15"/>
-
-             <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -33,14 +26,14 @@
                         </Trigger>
                     </Button.Triggers>
                 </Button>
-                <Button x:Name="StateButton" Grid.Column ="1" Text="State" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
+                <Button x:Name="PostalCodeButton" Grid.Column ="1" Text="Postal Code" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
                     <Button.Triggers>
                         <Trigger TargetType="Button" Property="IsEnabled" Value="False">
                             <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
                         </Trigger>
                     </Button.Triggers>
                 </Button>
-                <Button x:Name="PostalCodeButton" Grid.Column ="2" Text="Postal Code" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
+                <Button x:Name="StateButton" Grid.Column ="2" Text="State" Style="{StaticResource BlueButton}" Clicked="OnSearchSettingsButtonClicked">
                     <Button.Triggers>
                         <Trigger TargetType="Button" Property="IsEnabled" Value="False">
                             <Setter Property="Style" Value="{StaticResource BlueButtonDisabled}"/>
@@ -85,9 +78,6 @@
                     </Button.Triggers>
                 </Button>
             </Grid>
-
         </StackLayout>
-
     </Frame>
-
 </pages:PopupPage>

@@ -22,6 +22,7 @@ namespace POC.Views
             SetMapTypeButtonEnabledProperties(_breweryMap.MapType);
             SetSearchSettingsButtonEnabledProperties((Enumerations.MapSearchType)Preferences.Get("defaultMapSearchType",
                 (int)Enumerations.MapSearchType.City));
+            this.CloseWhenBackgroundIsClicked = true;
         }
 
         //onclickedevents for changing map settings...
@@ -145,6 +146,5 @@ namespace POC.Views
                 return TaskStatus.Faulted;
             }
         }
-
     }
 }
