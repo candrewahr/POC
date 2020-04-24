@@ -96,7 +96,7 @@ namespace POC.Services
 
             //url construction
             var page = 1;
-            var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=50&page=");
+            var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=40&page=");
 
             while (page <= 3)
             {

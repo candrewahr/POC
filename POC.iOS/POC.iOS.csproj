@@ -145,11 +145,8 @@
     <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\1024-1.png" />
     <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\58-1.png" />
     <ImageAsset Include="Assets.xcassets\MapHamburgerIcon.appiconset\87.png" />
-    <BundleResource Include="Resources\blackMenuImage.png" />
-    <BundleResource Include="Resources\blueMenuIcon.png" />
-    <BundleResource Include="Resources\mapSettingsButton.png" />
-    <BundleResource Include="Resources\SettingsIconForMap.png" />
     <BundleResource Include="Resources\iOSAndAndroid.png" />
+    <BundleResource Include="Resources\SettingsIconForMap.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
