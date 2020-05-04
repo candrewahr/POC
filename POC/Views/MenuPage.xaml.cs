@@ -1,9 +1,7 @@
 ﻿using POC.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace POC.Views
 {
@@ -14,6 +12,7 @@ namespace POC.Views
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
         List<HomeMenuItem> menuItems;
+
         public MenuPage()
         {
             InitializeComponent();

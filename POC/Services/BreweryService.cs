@@ -77,7 +77,7 @@ namespace POC.Services
         /// </summary>
         /// <param name="currentUserAddress"></param>
         /// <returns></returns>
-        public async Task<List<Brewery>> GetBreweriesByState(Placemark currentUserAddress)
+        public async Task<List<Brewery>> GetBreweriesByState(Placemark currentUserAddress, int pageLimit = 3)
         {
 
             Breweries = new List<Brewery>();
@@ -98,7 +98,7 @@ namespace POC.Services
             var page = 1;
             var uri = new Uri(byStateUrl + "=" + currentState + "&per_page=40&page=");
 
-            while (page <= 3)
+            while (page <= 10)
             {
                 try
                 {

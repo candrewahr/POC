@@ -6,14 +6,16 @@ namespace POC.MobileAppService.Models
         public string ID { get; set; }
         public string Name { get; set; }
         public byte BreweryType { get; set; }
-        public Address Address { get; set; }
+        //public Address Address { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double LatitudeDouble { get; set; }
+        public double LongitudeDouble { get; set; }
+        public double Longitude { get; set; }
         public string Phone { get; set; }
         public string WebsiteUrl { get; set; }
         public DateTime LastUpdatedOn { get; set; }
