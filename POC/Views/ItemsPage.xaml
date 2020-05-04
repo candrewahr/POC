@@ -4,29 +4,30 @@
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
     </ContentPage.ToolbarItems>
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
-        <CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Items}">
-            <d:CollectionView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>First Item</x:String>
-                    <x:String>Second Item</x:String>
-                    <x:String>Third Item</x:String>
-                    <x:String>Fourth Item</x:String>
-                    <x:String>Fifth Item</x:String>
-                    <x:String>Sixth Item</x:String>
-                </x:Array>
-            </d:CollectionView.ItemsSource>
-            <CollectionView.ItemTemplate>
+
+        <ListView ItemsSource="{Binding NearbyBreweries}"
+                  CachingStrategy="RecycleElement"
+                  ItemTapped="Handle_BreweryTapped"
+                  HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10">
-                        <Label Text="{Binding Text}" d:Text="{Binding .}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                        <Label Text="{Binding Description}" d:Text="Item descripton" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
+                    <ViewCell>
+                        <StackLayout Padding="5">
+                            <Label Text="{Binding Name}"
+                                   FontSize="Large"
+                                   FontAttributes="Bold"
+                                   TextColor="DarkSlateGray"/>
+                            <Label Text="{Binding Street}"
+                                   FontSize="Small"
+                                   FontAttributes="Bold"
+                                   TextColor="DodgerBlue"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </ListView.ItemTemplate>
+
+
+        </ListView>
     </RefreshView>
 </ContentPage>

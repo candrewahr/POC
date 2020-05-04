@@ -12,10 +12,8 @@ namespace POC.MobileAppService.Models
         public string State { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
-        public double Latitude { get; set; }
-        public double LatitudeDouble { get; set; }
-        public double LongitudeDouble { get; set; }
-        public double Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public string Phone { get; set; }
         public string WebsiteUrl { get; set; }
         public DateTime LastUpdatedOn { get; set; }
