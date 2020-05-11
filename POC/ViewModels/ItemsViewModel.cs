@@ -9,22 +9,23 @@ using Xamarin.Forms.Maps;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Essentials;
+using POC.Models;
 
 namespace POC.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public ObservableCollection<Brewery> NearbyBreweries { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public ObservableCollection<YelpBusiness> NearbyBreweries { get; set; }
         private ItemsPage _itemsPage { get; set; }
         private readonly BreweryService _breweryService;
-        private ObservableCollection<Brewery> _breweries;
+        private ObservableCollection<YelpBusiness> _breweries;
         private Geocoder _geocoder;
 
         /// <summary>
         /// Observable Collection of Breweries for display on the Item Page.
         /// </summary>
-        public ObservableCollection<Brewery> Breweries
+        public ObservableCollection<YelpBusiness> Breweries
         {
             get => _breweries;
             set
@@ -38,9 +39,10 @@ namespace POC.ViewModels
         {
             _itemsPage = itemsPage;
             Title = "Nearby Breweries";
-            NearbyBreweries = new ObservableCollection<Brewery>();
             _breweryService = new BreweryService();
             _geocoder = new Geocoder();
+            Breweries = new ObservableCollection<YelpBusiness>();
+            NearbyBreweries = new ObservableCollection<YelpBusiness>();
             InitMenuPage();           
         }
 
@@ -52,11 +54,11 @@ namespace POC.ViewModels
             {
                 NearbyBreweries.Clear();
                 var nearestBreweries = (from brewery in Breweries
-                               let geo = new Location(ConvertToDouble(brewery.Latitude), ConvertToDouble(brewery.Longitude))
-                               orderby Location.CalculateDistance(geo, App.CurrentUserLocation, DistanceUnits.Miles)
-                               select brewery).Take(10);
+                                        let geo = new Location(brewery.Location.Latitude, brewery.Location.Longitude)
+                                        orderby Location.CalculateDistance(geo, App.CurrentUserLocation, DistanceUnits.Miles)
+                                        select brewery).Take(10);
 
-                foreach(var brewery in nearestBreweries)
+                foreach (var brewery in nearestBreweries)
                 {
                     NearbyBreweries.Add(brewery);
                 }
@@ -72,19 +74,9 @@ namespace POC.ViewModels
 
         public async Task InitMenuPage()
         {
-            var breweriesByState = await _breweryService.GetBreweriesByState(App.UserPlacemark);
-            Breweries = new ObservableCollection<Brewery>(breweriesByState);
-            foreach (var brewery in Breweries)
-            {
-                if (brewery.Latitude == null || brewery.Longitude == null)
-                {
-                    IEnumerable<Position> breweryLatLong = await _geocoder.GetPositionsForAddressAsync(brewery.Street + ", " + brewery.City + ", " + brewery.State + " " + brewery.PostalCode);
-                    var position = breweryLatLong.FirstOrDefault();
-                    brewery.Latitude = position.Latitude.ToString();
-                    brewery.Longitude = position.Longitude.ToString();
-                }
-            }
-            FilterBreweryListByProximity();
+            var yelpService = new YelpService();
+            var nearbyBreweries = await yelpService.GetNearestYelpBreweries();
+            Breweries = new ObservableCollection<YelpBusiness>(nearbyBreweries);
             await ExecuteLoadItemsCommand();
             return;
         }  

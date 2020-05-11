@@ -18,7 +18,7 @@
                                    FontSize="Large"
                                    FontAttributes="Bold"
                                    TextColor="DarkSlateGray"/>
-                            <Label Text="{Binding Street}"
+                            <Label Text="{Binding DistanceToBusiness}"
                                    FontSize="Small"
                                    FontAttributes="Bold"
                                    TextColor="DodgerBlue"/>

@@ -28,7 +28,7 @@ namespace POC.Views
         }
 
         async void OnItemSelected(object sender, EventArgs args)
-        {
+        {            
             var layout = (BindableObject)sender;
             var item = (Item)layout.BindingContext;
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
@@ -42,7 +42,7 @@ namespace POC.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (viewModel.NearbyBreweries.Count == 0)
+            if (viewModel.Breweries.Count == 0)
                 viewModel.IsBusy = true;   
         }
 
